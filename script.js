@@ -50,12 +50,11 @@ buttons.forEach((button) => {
         operator = event.target.textContent;
         break;
       case "equals":
-        if (first.isInteger()) {
-          first = operate(operator, first, second);
+        let answer = operate(operator, first, second);
+        if (Number.isInteger(answer)) {
+          first = answer;
         } else {
-          first = (
-            Math.round(operate(operator, first, second) * 100) / 100
-          ).toFixed(2);
+          first = (Math.round(answer * 100) / 100).toFixed(2);
         }
         second = null;
         break;
