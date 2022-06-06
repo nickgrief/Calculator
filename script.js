@@ -1,21 +1,19 @@
 function operate(operator, a, b) {
+  console.log(operator, a, b);
+  a = Number(a);
+  b = Number(b);
   switch (operator) {
     case "+":
-      add(a, b);
-      break;
+      return add(a, b);
     case "-":
-      subtract(a, b);
-      break;
+      return subtract(a, b);
     case "*":
-      multiply(a, b);
-      break;
+      return multiply(a, b);
     case "/":
-      divide(a, b);
-      break;
+      return divide(a, b);
 
     default:
-      console.log("Incorrect input");
-      break;
+      return console.log("BRO");
   }
 }
 
@@ -36,12 +34,66 @@ function divide(a, b) {
 }
 
 let expression = [];
+let first = null;
+let second = null;
+let operator = null;
 let display = document.querySelector("#display");
 let buttons = document.querySelectorAll(".button");
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     expression.push(event.target.textContent);
-    display.textContent = expression.join(" ");
-  })
+    switch (event.target.textContent) {
+      case "-":
+      case "*":
+      case "/":
+      case "+":
+        operator = event.target.textContent;
+        break;
+      case "equals":
+        if (first.isInteger()) {
+          first = operate(operator, first, second);
+        } else {
+          first = (
+            Math.round(operate(operator, first, second) * 100) / 100
+          ).toFixed(2);
+        }
+        second = null;
+        break;
+      case "c":
+        display.textContent = "";
+        first = null;
+        second = null;
+        operator = null;
+        break;
+      default:
+        if (operator == null) {
+          if (first == null) {
+            first = event.target.textContent;
+          } else {
+            first += event.target.textContent;
+          }
+        } else {
+          if (second == null) {
+            second = event.target.textContent;
+          } else {
+            second += event.target.textContent;
+          }
+        }
+        break;
+    }
+    if (first == null && second == null) {
+      display.textContent = "what should i calculate?";
+      console.log(display.textContent, first, second, operator);
+    } else if (second == null && operator == null) {
+      display.textContent = first;
+      console.log(display.textContent, first, second, operator);
+    } else if (second == null) {
+      display.textContent = first + " " + operator;
+      console.log(display.textContent, first, second, operator);
+    } else {
+      display.textContent = first + " " + operator + " " + second;
+      console.log(display.textContent, first, second, operator);
+    }
+  });
   console.log(button.textContent);
-})
+});
