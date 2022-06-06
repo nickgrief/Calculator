@@ -34,3 +34,14 @@ function multiply(a, b) {
 function divide(a, b) {
   return a / b;
 }
+
+let expression = [];
+let display = document.querySelector("#display");
+let buttons = document.querySelectorAll(".button");
+buttons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    expression.push(event.target.textContent);
+    display.textContent = expression.join(" ");
+  })
+  console.log(button.textContent);
+})
