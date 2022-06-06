@@ -1,5 +1,4 @@
 function operate(operator, a, b) {
-  console.log(operator, a, b);
   a = Number(a);
   b = Number(b);
   switch (operator) {
@@ -13,7 +12,6 @@ function operate(operator, a, b) {
       return divide(a, b);
 
     default:
-      return console.log("BRO");
   }
 }
 
@@ -52,21 +50,21 @@ buttons.forEach((button) => {
           if (Number.isInteger(answer)) {
             first = answer;
           } else {
-            first = (Math.round(answer * 100) / 100).toFixed(2);
+            first = parseFloat((Math.round(answer * 100) / 100).toFixed(2));
           }
           second = null;
         }
         operator = event.target.textContent;
         break;
       case "equals":
+        if (first == null || second == null || operator == null) break;
         let answer = operate(operator, first, second);
         if (Number.isInteger(answer)) {
           first = answer;
         } else {
-          first = (Math.round(answer * 100) / 100).toFixed(2);
+          first = parseFloat((Math.round(answer * 100) / 100).toFixed(2));
         }
         second = null;
-        operator = null;
         break;
       case "c":
         display.textContent = "";
@@ -74,11 +72,28 @@ buttons.forEach((button) => {
         second = null;
         operator = null;
         break;
+      case ".":
+        if (operator == null) {
+          if (first == null || first.indexOf(".") != -1) {
+            break;
+          } else {
+            if (first == Infinity) break;
+            first += event.target.textContent;
+          }
+        } else {
+          if (second == null || second.indexOf(".") != -1) {
+            break;
+          } else {
+            second += event.target.textContent;
+          }
+        }
+        break;
       default:
         if (operator == null) {
           if (first == null) {
             first = event.target.textContent;
           } else {
+            if (first == Infinity) break;
             first += event.target.textContent;
           }
         } else {
@@ -92,17 +107,12 @@ buttons.forEach((button) => {
     }
     if (first == null && second == null) {
       display.textContent = "what should i calculate?";
-      console.log(display.textContent, first, second, operator);
     } else if (second == null && operator == null) {
       display.textContent = first;
-      console.log(display.textContent, first, second, operator);
     } else if (second == null) {
       display.textContent = first + " " + operator;
-      console.log(display.textContent, first, second, operator);
     } else {
       display.textContent = first + " " + operator + " " + second;
-      console.log(display.textContent, first, second, operator);
     }
   });
-  console.log(button.textContent);
 });
