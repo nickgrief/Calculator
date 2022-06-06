@@ -106,7 +106,7 @@ buttons.forEach((button) => {
         break;
     }
     if (first == null && second == null) {
-      display.textContent = "what should i calculate?";
+      display.textContent = "calculator v0.01";
     } else if (second == null && operator == null) {
       display.textContent = first;
     } else if (second == null) {
